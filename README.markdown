@@ -27,8 +27,8 @@ Installation
      
 3. Copy and compile the settings schema as **sudo/root**. We need to add a `glib` schema, and gedit looks for such schema in the `/usr/` directory in the file system. Thus, we will need to root privileges, in order to put the newly compiled schemas database in that location.
 
-    sudo cp org.gnome.gedit.plugins.restoretabs.gschema.xml /usr/share/glib-2.0/schemas/
-    sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+       sudo cp org.gnome.gedit.plugins.restoretabs.gschema.xml /usr/share/glib-2.0/schemas/
+       sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
 
 4. Restart gedit, and activate the plugin by going to `Edit` > `Preferences`, selecting the `Plugins` tab and marking the checkbox by the `Restore Tabs` entry.
 
