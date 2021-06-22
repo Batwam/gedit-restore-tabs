@@ -1,9 +1,9 @@
 ## gedit Restore Tabs
 
 This is a plugin for [gedit][1], the official text editor of the GNOME desktop
-environment. It's a fork from the no more maintained [restore-tabs plugin](https://github.com/Quixotix/gedit-restore-tabs). 
+environment. It's a fork from the no more maintained [restore-tabs plugin](https://github.com/Quixotix/gedit-restore-tabs), originally written by Micah Carrick, without a license attached to it.
 
-This plugin was originally written by Micah Carrick, without a license attached to it. This fork started to [fix Python 3 support](https://github.com/Quixotix/gedit-restore-tabs/issues/12) as the original plugin is abandoned, later collected from several branches forked, like [Kasual branch](https://github.com/Kasual/gedit-restore-tabs) and [Hildo Guillardi Júnior branch](https://github.com/hildogjr/gedit-restore-tabs).
+It contains fixes to work with Python 3, fixes to Gnome 3.38, fixes collected from [Kasual branch](https://github.com/Kasual/gedit-restore-tabs) and [Hildo Guillardi Júnior branch](https://github.com/hildogjr/gedit-restore-tabs) and an additional fix to restore files with blank space paths.
 
 This plugin is for gedit versions 3.36 and above (included in Ubuntu 20.04).
 
