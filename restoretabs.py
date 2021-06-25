@@ -85,7 +85,7 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
             Remove handler after first use.
             """
             document = tab.get_document()
-            if document.is_untitled():
+            if document.is_untitled() and len(window.get_documents()) > 1:
                 # crash with segfault
                 #self.window.close_tab(tab)
                 # workaround
