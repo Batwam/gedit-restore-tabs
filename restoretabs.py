@@ -74,8 +74,8 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
                     if location.query_exists():
                         tab = self.window.get_tab_from_location(location)
                         if not tab:
-                            self.window.create_tab_from_location(location, None, 0, 
-                                                                    0, False, True)
+                            tab = self.window.create_tab(True) #create new tab and jump_to it
+                            tab.load_file(location, None, 0, 0, True) #GFile *location,*encoding,line_pos,column_pos,create
             self.window.disconnect(self._temp_handler)
 
 
@@ -85,12 +85,13 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
             Remove handler after first use.
             """
             document = tab.get_document()
-            if document.is_untitled() and len(window.get_documents()) > 1:
-                # crash with segfault
-                #self.window.close_tab(tab)
-                # workaround
-                source_id = GObject.idle_add(self.tabclose, tab)
-                self.window.disconnect(self.tab_handler_id)
+#            if document.is_untitled() and len(window.get_documents()) > 1:
+#                # crash with segfault
+#                #self.window.close_tab(tab)
+#                # workaround
+#                print("----------------closing tab")
+#                source_id = GObject.idle_add(self.tabclose, tab)
+#                self.window.disconnect(self.tab_handler_id)
 
     def tabclose(self, tab):
             self.window.close_tab(tab)
