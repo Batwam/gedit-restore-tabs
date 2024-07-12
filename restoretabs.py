@@ -2,7 +2,7 @@
 # Distribute under GNU GPL 3.0 License.
 
 import os
-from gi.repository import GObject, GLib, Gtk, Gio, Gedit
+from gi.repository import GObject, GLib, Gtk, Gio, Tepl, Gedit
 
 SETTINGS_SCHEMA = "org.gnome.gedit.plugins.restoretabs"
 
@@ -69,6 +69,7 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
             settings = Gio.Settings.new(SETTINGS_SCHEMA)
             uris = settings.get_value('uris')
             if uris:
+                self.nbDocuments = len(uris)
                 for uri in uris:
                     location = Gio.file_new_for_uri(uri)
                     if location.query_exists():
@@ -76,6 +77,9 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
                         if not tab:
                             tab = self.window.create_tab(True) #create new tab and jump_to it
                             tab.load_file(location, None, 0, 0, True) #GFile *location,*encoding,line_pos,column_pos,create
+            else:
+                self.window.disconnect(self.tab_handler_id)
+            
             self.window.disconnect(self._temp_handler)
 
 
@@ -85,13 +89,12 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
             Remove handler after first use.
             """
             document = tab.get_document()
-#            if document.is_untitled() and len(window.get_documents()) > 1:
+            if document.get_file().get_location() is None and len(window.get_documents()) > self.nbDocuments:
 #                # crash with segfault
 #                #self.window.close_tab(tab)
 #                # workaround
-#                print("----------------closing tab")
-#                source_id = GObject.idle_add(self.tabclose, tab)
-#                self.window.disconnect(self.tab_handler_id)
+                source_id = GObject.idle_add(self.tabclose, tab)
+                self.window.disconnect(self.tab_handler_id)
 
     def tabclose(self, tab):
             self.window.close_tab(tab)
