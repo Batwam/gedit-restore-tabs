@@ -2,7 +2,7 @@
 # Distribute under GNU GPL 3.0 License.
 
 import os
-from gi.repository import GObject, GLib, Gtk, Gio, Tepl, Gedit
+from gi.repository import GObject, GLib, Gtk, Gio, Gedit
 
 SETTINGS_SCHEMA = "org.gnome.gedit.plugins.restoretabs"
 
