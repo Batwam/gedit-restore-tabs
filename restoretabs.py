@@ -69,13 +69,17 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
             settings = Gio.Settings.new(SETTINGS_SCHEMA)
             uris = settings.get_value('uris')
             if uris:
+                self.nbDocuments = len(uris)
                 for uri in uris:
                     location = Gio.file_new_for_uri(uri)
                     if location.query_exists():
                         tab = self.window.get_tab_from_location(location)
                         if not tab:
-                            self.window.create_tab_from_location(location, None, 0, 
-                                                                    0, False, True)
+                            tab = self.window.create_tab(True) #create new tab and jump_to it
+                            tab.load_file(location, None, 0, 0, True) #GFile *location,*encoding,line_pos,column_pos,create
+            else:
+                self.window.disconnect(self.tab_handler_id)
+            
             self.window.disconnect(self._temp_handler)
 
 
@@ -85,10 +89,10 @@ class RestoreTabsWindowActivatable(GObject.Object, Gedit.WindowActivatable):
             Remove handler after first use.
             """
             document = tab.get_document()
-            if document.is_untitled() and len(window.get_documents()) > 1:
-                # crash with segfault
-                #self.window.close_tab(tab)
-                # workaround
+            if document.get_file().get_location() is None and len(window.get_documents()) > self.nbDocuments:
+#                # crash with segfault
+#                #self.window.close_tab(tab)
+#                # workaround
                 source_id = GObject.idle_add(self.tabclose, tab)
                 self.window.disconnect(self.tab_handler_id)
 
